@@ -141,7 +141,7 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
             dataReady = statusRegister[0] & 0x0008
             # print("ready status: 0x%x" % dataReady)
 
-        while (dataReady != 0) and (cnt < 5):
+        while (dataReady != 0):# and (cnt < 5):
             self._I2CWriteWord(0x8000, 0x0030)
             # print("Read frame", cnt)
             self._I2CReadWords(0x0400, frameData, end=832)
@@ -151,8 +151,8 @@ class MLX90640:  # pylint: disable=too-many-instance-attributes
             # print("frame ready: 0x%x" % dataReady)
             cnt += 1
 
-        if cnt > 4:
-            raise RuntimeError("Too many retries")
+        #if cnt > 4:
+        #    raise RuntimeError("Too many retries")
 
         self._I2CReadWords(0x800D, controlRegister)
         frameData[832] = controlRegister[0]
